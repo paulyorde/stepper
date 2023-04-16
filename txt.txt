@@ -1,0 +1,291 @@
+
+    // const formData = new FormData(e.target)
+    // let foo = []
+    // for (const [name,value] of formData) {
+    //     if(value) {
+    //     console.log( ": value", value)
+    //     foo.push(value)
+    //     } else {
+    //     console.log('name', name)
+    //     }
+    // }
+
+
+/**
+ * Return direct children elements.
+ *
+ * @param {HTMLElement}
+ * @return {Array}
+ */
+function elementChildren (element) {
+    console.log('ele children', element)
+    let childNodes = element.childNodes,
+        children = [],
+        i = childNodes.length;
+    while (i--) {
+        if (childNodes[i].nodeType == 1) {
+            children.unshift(childNodes[i]);
+        }
+    }
+    return children;
+}
+
+
+/** handle steps and handle complete use foreach of history
+ *  possible create generic function that takes a pipe 
+ *  pass these 2 methods and any other method that would use foreach
+ *  
+ */
+
+/**
+     * Title (subtitle)
+     * manage app data ( it's all about the data )
+     * this sections covers a concept know as data-driven 
+     * subtopics ( functionoal, JS devices to work with data - ( destructring, computed properties, etc))
+     */
+
+
+    /**
+     * instead of needing to know how many steps there are
+     * use array.length 
+     * keep track of prev completed step number and check if next number is sequential
+     * ex - prev = 1 , isCurrent = 2? 
+     */
+/** setup history factory */
+
+
+
+// use data-step-# in html
+// use in step factory to create data object
+// if data# = 1 create object 
+// will need to determine if complete later when more form elements are added 
+
+// create array of step1 fields
+// each field known by data-id
+// form submit can see all of them as a group
+// can be generated dynacmically baseds on data-id 
+
+// send step number w/o data when number icon is pressed -> to determine if previous step is complete
+
+// when form submit returns no error ( complete ) set complete to true
+
+// function formSubmit(e) {
+//     console.log('form submit', e)
+// }
+
+
+
+/**
+ * step 1 
+ * Rules
+ * not go to next screen when not complete - has error
+ * not go back if immutable data has been filled
+ * can go back to home screen any time but if immutable data is filled then must start over
+ * 
+ * 
+ * 
+ * screen 
+ * progress bar fills in on complete 
+ * step number indicatore fills in 
+ * 
+ * 
+ * 
+ * state 
+ * each step/state should have a history 
+ * use to check if step is complete/error or if immutable data has been accessed 
+ * 
+ */
+
+
+/**
+ * 
+ *  TODO part 4 create web component and put up on open source components and flutter
+ *  part 5 webpack, rollup, ( package manager , bundlers )
+ *  part 6 - drag and drop form steps  - use es6 modules 
+ *    marketing 
+ * --- use in any framework
+ * --- use for portfolio having put up on open source 
+ * --- functional programming
+ * --- PART 2 CSS (  google design, tailwind, bootstrap scss theme  )
+ *          --- show staticsics of useage/companies that use love for frameworks
+ * --- PART 3
+ * --- persist data locally ( demonstrate db, local storage pros and cons)
+ *      
+ */
+
+
+/**
+ 
+    * todo functions ???
+    * updateStep1(input), updateStep2(input), updateStep3(input) # 
+    * 
+    */
+    
+
+    /**
+ * 
+ * each item gets a stepProgress updated
+ * bubble the event listener so that each field triggers a call to runDataSteps()
+ * 
+ * memoize to not call switch
+ * 
+ * state machine for each step being complete
+ * 
+ * 
+ * divide 100% by # of fields
+ */
+
+    /**
+         * cloning keeps data from getting corrupted later - functional pillar of state 
+         * const cloneData = Object.assign({}, data)
+         */
+
+
+// TIP not primary object, no need to memorize or really learn this info
+// provent science - after learning primary objective - tips will lead us to creating better, robust applications
+// so, just a quick glance at TIPs for a brief 'a-ha' moment and contine with main lesson ( show pic of a-ha ????)
+
+
+
+
+// const machine = createMachine({
+//    fire when state changes - side effects
+//       actions: {
+//         // side effect - disable attribute is applied / UI is mutated
+//         onEnter() {
+//           console.log('off: onEnter')
+//         },
+//         onExit() {
+//           console.log('off: onExit')
+//         },
+//       },
+      
+//       transitions: {
+//         // Event = 'switch' TRIGGERS the transistion to 'on' from 'off'
+//         switch: {
+//           target: 'on',
+//           // some side effect ( log the data )
+//           action() {
+//             console.log('transition action for "switch" in "off" state')
+//           },
+//         },
+//       },
+//     },
+//     on: {
+//       actions: {
+//         onEnter() {
+//           console.log('on: onEnter')
+//         },
+//         onExit() {
+//           console.log('on: onExit')
+//         },
+//       },
+//       transitions: {
+//         switch: {
+//           target: 'off',
+//           action() {
+//             console.log('transition action for "switch" in "on" state')
+//           },
+//         },
+//       },
+//     },
+// })
+// const formMachine = createFormMachine({
+//   initialState: '',
+//   // state 1
+//     // context data
+
+//     // actions 
+
+//     // transitions
+//       // event
+//         // target
+//         // action
+
+//   // state 2
+// }) initialState: 'off',
+//     off: {
+//       data: {
+//         step: 1
+//       },
+//       // actions 
+
+
+
+// pass the function for current operation ( hanlde complete in this case )
+// function controlHistory(history , fn) {
+//   console.log('fns', fn)
+//   // updatedeHistory
+//   history = [{...history}]
+//   history?.forEach(({data}, i) => {
+//     memoizeStepHistory,
+//     handleProgressBar,
+//     handleComplete
+    
+    
+//     fn.forEach((f) => {
+//       // console.log('f',f)
+//       f(data)
+//     })
+//     // for ( let f in fn) {
+//     //   console.log('what is f', typeof f)
+//     //   if(fn.hasOwnProperty(f)) {
+//     //     f(data)
+
+//     //   }
+//     // }
+//     // fn(data, i)
+//   })
+//   // return updatedHistory
+// }
+
+// function createMachine(stateMachineDefinition) {
+//     const machine = {
+//       value: stateMachineDefinition.initialState,
+//       transition(currentState, event) {
+//         const currentStateDefinition = stateMachineDefinition[currentState]
+//         const destinationTransition = currentStateDefinition.transitions[event]
+//         if (!destinationTransition) {
+//           return
+//         }
+//         const destinationState = destinationTransition.target
+//         const destinationStateDefinition =
+//           stateMachineDefinition[destinationState]
+  
+//         destinationTransition.action()
+//         currentStateDefinition.actions.onExit()
+//         destinationStateDefinition.actions.onEnter()
+  
+//         machine.value = destinationState
+  
+//         return machine.value
+//       },
+//     }
+//     return machine
+// }
+  
+  
+  
+//   let state = machine.value
+//   console.log(`current state: ${state}`)
+//   state = machine.transition(state, 'switch')
+//   console.log(`current state: ${state}`)
+//   state = machine.transition(state, 'switch')
+//   console.log(`current state: ${state}`)
+
+/**
+ * 
+ * State Machine
+ * events - empty, full ( input fields )
+ * transitions - empty is full - vise versa
+ * side effects - buttons enable/disable - form animates - 
+ * 
+ * todo
+ * build xstate diagram 
+ * states - form1 (field 1, 2, 3) ( 1 interacted with but not filled out) ( 2 interacted with but 1 not filled out ) etc...
+ * actions 
+ * contexts - how to pass data and maintain it via higher order functional
+ * transitions
+ * services
+ * 
+ */

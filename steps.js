@@ -1,132 +1,122 @@
-
+/**
+ * Blog Title: Minimize This - Functional State Machine Forms w/ side effects
+ * 
+ * Todo: build a History store that knows values of form fields and section-completeness 
+ */
 const stepProgress = document.querySelectorAll('div[style*="width"]')
-const step1 = document.querySelector('#exampleFormControlInput1')
-const step2 = document.querySelector('#username')
-const step3 = document.querySelector('#url')
+const step1Form = document.querySelector('#step1-form')
+const step2Form = document.querySelector('#step-2-form')
+const step3Form = document.querySelector('#step-3-form')
 const btnStep2 = document.querySelector('#step2')
 const btnStep3 = document.querySelector('#step3')
+
+/** Todo: refactor::DRY */
+step1Form.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('form 1 btn thing')
+    /** Greate place for a small target.oninput tutorial */
+    e.target.oninput = () => {
+        /** Discuse the data structure Oject: Object:  value and passing the functions to the function (functional higher-order) */
+        runStepFactory({data: { step: e.target.dataset.step, value: e.target.value, field: e.target.type}})
+    }
+})
+
+step2Form.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.target.oninput = () => {
+        runStepFactory({data: { step: e.target.dataset.step, value: e.target.value, field: e.target.type}})
+    }
+})
+
+step3Form.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.target.oninput = () => {
+        runStepFactory({data: { step: e.target.dataset.step, value: e.target.value, field: e.target.type}})
+    }
+})
 
 const pipe = (f, g) => (...args) => g(f(...args))
 const setupStepFactory  = (...fns) => fns.reduce(pipe);
 const initStepsHistory = () => {
      // encapsulates and closes over the data - object oriented pillar of state 
      let history = []
-
-     /** memoizeStepsHistory **************************************** */
+     let flag = false
+     /** memoizeStepsHistory - Cache actually, not memozie **************************************** */
      return function(data) {
-         // keeps data from getting corrupted later - functional pillar of state 
-         // const cloneData = Object.assign({}, data)
-         const cloneData = {...data, hello: 'world'}
-         history.push(cloneData)
-         return history
+        history.forEach(v => {
+            if(v.data.value === data.data.value) {
+                flag = true
+            } else {
+                flag = false
+            }
+        })
+     
+        if(!flag) {
+            const cloneData = {...data}
+            history.push(cloneData)
+        }
+
+        return history
      }
 }
-const memoizeStepHistory = initStepsHistory()
-const handleSteps = (history) => {
-    history.forEach(v => {
-        if(v.step === 1) {
-            if(v.complete) {
-                stepProgress[0].setAttribute('style', 'width: 100%')
-                btnStep2.removeAttribute('disabled')
-            }
-        }
-        if(v.step === 2) {
-            if(v.complete) {
-                stepProgress[1].setAttribute('style', 'width: 100%')
-                btnStep3.removeAttribute('disabled')
-            }
-        }
-        if(v.step === 3) {
-            if(v.complete) {
-                stepProgress[2].setAttribute('style', 'width: 100%')
-            }
+const handleStepHistory = initStepsHistory()
+
+const handleProgressBar = (history) => {
+    let updatedHistory = []
+    history.forEach(({data} , i) => {
+        let width
+        switch(true) {
+            case (data.step === "1.1" && data.value && data.field === 'email'):
+                width = 1 * 33.33
+                stepProgress[0].setAttribute('style', `width: ${width}%`)
+                break
+            case (data.step === "1.2" && data.value && data.field === 'text'):
+                width = 2 * 33.33
+                stepProgress[0].setAttribute('style', `width: ${width}%`)
+                break
+            case (data.step === "1.3" && data.value && data.field === 'text'):
+                width = 3 * 33.33
+                stepProgress[0].setAttribute('style', `width: ${width}%`)
+                updatedHistory.push({data: {...data, complete: true}})
+                break
+            case (data.step === "2.1"):
+                width = 1 * 50
+                stepProgress[1].setAttribute('style', `width: ${width}%`)
+                break
+            case (data.step === "2.2"):
+                width = 2 * 50
+                stepProgress[1].setAttribute('style', `width: ${width}%`)
+                updatedHistory.push({data: {...data, complete: true}})
+                break
+            case (data.step === "3.1"):
+                width = 1 * 100
+                stepProgress[2].setAttribute('style', `width: ${width}%`)
+                updatedHistory.push({data: {...data, complete: true}})
+                break
         }
     })
-    console.log('history', history)
+    if(updatedHistory.length) {
+        return updatedHistory
+    }
+    return history
+}
+const handleComplete = (history) => {
+    let updatedHistory = []
+        history?.forEach(({data}, i) => {
+            if(data.complete && data.step === '1.3') {
+                btnStep2.removeAttribute('disabled')
+            }
+            if(data.complete && data.step === '2.2') {
+                btnStep3.removeAttribute('disabled')
+            }
+            // if(data.complete && data.step === '3.1') {
+            // }
+        })
+    return updatedHistory
 }
 const runStepFactory = setupStepFactory(
-    // scrub and sanitize data
-    memoizeStepHistory,
-    handleSteps
+    // Todo: scrub and sanitize data
+    handleStepHistory,
+    handleProgressBar,
+    handleComplete
 )
-
-// use data-step-# in html
-// use in step factory to create data object
-// if data# = 1 create object 
-// will need to determine if complete later when more form elements are added 
-step1.addEventListener('blur', (e) => {
-    let stepData = {
-        step: 1,
-        complete: true,
-        value: step1.value
-    }
-    runStepFactory(stepData)
-})
-
-step2.addEventListener('blur', (e) => {
-    let stepData = {
-        step: 2,
-        complete: true,
-        value: step2.value
-    }
-    runStepFactory(stepData)
-})
-
-step3.addEventListener('blur', (e) => {
-    let stepData = {
-        step: 3,
-        complete: true,
-        value: step3.value
-    }
-    runStepFactory(stepData)
-})
-
-
-/**
- * step 1 
- * Rules
- * not go to next screen when not complete - has error
- * not go back if immutable data has been filled
- * can go back to home screen any time but if immutable data is filled then must start over
- * 
- * 
- * 
- * screen 
- * progress bar fills in on complete 
- * step number indicatore fills in 
- * 
- * 
- * 
- * state 
- * each step/state should have a history 
- * use to check if step is complete/error or if immutable data has been accessed 
- * 
- */
-
-
-/**
- * 
- *  TODO part 4 create web component and put up on open source components and flutter
- *  part 5 webpack, rollup, ( package manager , bundlers )
- *  part 6 - drag and drop form steps  - use es6 modules 
- *    marketing 
- * --- use in any framework
- * --- use for portfolio having put up on open source 
- * --- functional programming
- * --- PART 2 CSS (  google design, tailwind, bootstrap scss theme  )
- *          --- show staticsics of useage/companies that use love for frameworks
- * --- PART 3
- * --- persist data locally ( demonstrate db, local storage pros and cons)
- *      
- */
-
-
-/**
- 
-    * todo functions ???
-    * updateStep1(input), updateStep2(input), updateStep3(input) # 
-    * 
-    */
-    
-
-
