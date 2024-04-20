@@ -1,15 +1,3 @@
-// closure that remebers each step
-// ex use case
-// each step has a separate screen containing it's own data 
-
-// step one fill out your name, address
-
-// step two choose plan level and length
-
-// fill out credit card 
-
-// review and submit ( use data from previous steps)
-
 const user = {
     name: 'Kim',
     active: true,
@@ -29,18 +17,6 @@ const user = {
     emptyUserCart,
   )(user, {name: 'laptop', price: 60})
 
-//   purchaseItem2(
-//     addItemToCart,
-//     applyTaxToItems,
-//     buyItem,
-//     emptyUserCart,
-//   )(user, {name: 'bag', price: 200})
-  // purchaseItem(
-  //   emptyUserCart,
-  //   buyItem,
-  //   applyTaxToItems,
-  //   addItemToCart
-  // )(user, {name: 'laptop', price: 50})
   function addItemToCart(user, item) {
     let {step} = user
     console.log(step)
@@ -79,8 +55,7 @@ const user = {
   }
 
   function updateStep(user) {
-
-    // return Object.assign({}, user, { step: })
+    return Object.assign({}, user, { step: })
   }
 
   function refundItem() {
@@ -95,11 +70,7 @@ const user = {
     if(user.step === 1) {
         console.log('step 1')
     }
-    // what is current step 
-    // step 1 = add to cart 
-    // step 2 = tax
-    // 3 = buy
-    // 4 = empty 
+   
     console.log('go back', history1)
   }
   
@@ -108,36 +79,3 @@ const user = {
   }
 
   console.log(history1)
-/**
- * 
- * @returns fn that looks like () => //code 
- */
-// const initSteps = (name, address) => {
-//    name = "init name"
-//    address = 'init address'
-//    return (name, address) => {
-    
-    
-//     console.log(`step 1 > name: ${name} > address: ${address}`)
-
-//     // calling inner function should have access to name property of outer function
-//     return function step2(level, length) {
-//         let step2Name = name
-//         console.log(`step 2 > level: ${level} > length: ${length}`)
-//     }
-//    }
-// }
-// const step1 = initSteps()
-
-// const step2 = step1('paul', ' jeruselam, Israel')
-// step2('volunteer', ' 1 yr')
-
-
-
-// // initSteps.stay = "staying"
-
-// console.log('outer', step2.step2Name)
-
-
-
-
